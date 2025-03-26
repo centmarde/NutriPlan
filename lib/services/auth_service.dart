@@ -28,13 +28,31 @@ class AuthService {
     String password,
   ) async {
     try {
+      // Set Firebase Auth language to device locale
+      final String languageCode = ui.window.locale.languageCode;
+      if (languageCode.isNotEmpty) {
+        _auth.setLanguageCode(languageCode);
+      } else {
+        print('Warning: Empty language code detected');
+      }
+
       final result = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
       return result;
+    } on FirebaseAuthException catch (e) {
+      print('Firebase Auth Error: ${e.code}, ${e.message}');
+      rethrow;
     } catch (e) {
+      if (e.toString().contains('X-Firebase-Locale')) {
+        print('Firebase Locale Error: ${e.toString()}');
+        throw Exception(
+          'Firebase locale error: Please check your device language settings',
+        );
+      }
+      print('Login Error: ${e.toString()}');
       rethrow;
     }
   }
