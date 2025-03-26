@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:io'; // Import for stderr access
 import '../router/routes.dart';
 import '../theme/theme.dart';
+import '../services/auth_service.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -15,49 +15,90 @@ class _LoginFormState extends State<LoginForm> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
+  final AuthService _authService = AuthService();
+  String? _errorMessage;
 
-  void _submitForm() {
+  void _submitForm() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    // Debug information
-    stderr.writeln('===== LOGIN ATTEMPT =====');
-    stderr.writeln('Email: ${_emailController.text}');
-    stderr.writeln('Password length: ${_passwordController.text.length}');
-    stderr.writeln('Timestamp: ${DateTime.now()}');
-    stderr.writeln('========================');
-
     setState(() {
       _isLoading = true;
+      _errorMessage = null;
     });
 
-    // TODO: Implement actual login logic with your backend
-
-    // Simulating network request
-    Future.delayed(const Duration(seconds: 1), () {
-      setState(() {
-        _isLoading = false;
-      });
-
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Login successful!'),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-        ),
+    try {
+      // Use Firebase Auth for login
+      await _authService.signInWithEmailAndPassword(
+        _emailController.text.trim(),
+        _passwordController.text,
       );
 
-      // Log navigation
-      stderr.writeln('===== NAVIGATION =====');
-      stderr.writeln('Navigating from: login screen');
-      stderr.writeln('Navigating to: /home');
-      stderr.writeln('Timestamp: ${DateTime.now()}');
-      stderr.writeln('======================');
+      if (mounted) {
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Login successful!'),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+          ),
+        );
 
-      // Navigate to home screen after successful login
-      Navigator.of(context).pushReplacementNamed('/home');
-    });
+        // Navigate to home screen after successful login
+        Navigator.of(context).pushReplacementNamed('/home');
+      }
+    } catch (e) {
+      setState(() {
+        _errorMessage = _getFirebaseErrorMessage(e.toString());
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  String _getFirebaseErrorMessage(String error) {
+    if (error.contains('user-not-found')) {
+      return 'No user found with this email.';
+    } else if (error.contains('wrong-password')) {
+      return 'Wrong password provided.';
+    } else if (error.contains('invalid-email')) {
+      return 'The email address is badly formatted.';
+    } else if (error.contains('user-disabled')) {
+      return 'This user account has been disabled.';
+    } else if (error.contains('too-many-requests')) {
+      return 'Too many unsuccessful login attempts. Please try again later.';
+    }
+    return 'An error occurred. Please try again.';
+  }
+
+  void _forgotPassword() async {
+    if (_emailController.text.isEmpty) {
+      setState(() {
+        _errorMessage = 'Please enter your email to reset password';
+      });
+      return;
+    }
+
+    try {
+      await _authService.sendPasswordResetEmail(_emailController.text.trim());
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Password reset email sent! Check your inbox.'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      setState(() {
+        _errorMessage =
+            'Failed to send reset email. Please check your email address.';
+      });
+    }
   }
 
   @override
@@ -100,13 +141,19 @@ class _LoginFormState extends State<LoginForm> {
               return null;
             },
           ),
+          if (_errorMessage != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(
+                _errorMessage!,
+                style: const TextStyle(color: Colors.red, fontSize: 12),
+              ),
+            ),
           const SizedBox(height: 8),
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
-              onPressed: () {
-                // TODO: Implement forgot password flow
-              },
+              onPressed: _forgotPassword,
               style: TextButton.styleFrom(foregroundColor: AppTheme.darker),
               child: const Text(
                 'Forgot password?',

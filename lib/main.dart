@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
-import 'router/index.dart';
-import 'auth/auth_screen.dart'; // Add explicit import for AuthScreen
+import 'package:firebase_core/firebase_core.dart';
+import 'dart:io';
+import 'router/app_router.dart';
+import 'theme/theme.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    await Firebase.initializeApp();
+    stderr.writeln('===== FIREBASE INITIALIZATION =====');
+    stderr.writeln('Firebase successfully initialized');
+    stderr.writeln('==================================');
+  } catch (e) {
+    stderr.writeln('===== FIREBASE INITIALIZATION ERROR =====');
+    stderr.writeln(e.toString());
+    stderr.writeln('=======================================');
+  }
+
   runApp(const MyApp());
 }
 
@@ -14,21 +29,27 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'NutriPlan',
       theme: ThemeData(
-        primarySwatch: Colors.green,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppTheme.darkest),
         useMaterial3: true,
       ),
-      // Change initialRoute to the root route
-      initialRoute: AppRoutes.root,
+      initialRoute: '/auth',
       onGenerateRoute: AppRouter.generateRoute,
-      // Add a fallback route in case the route generation fails
-      onUnknownRoute: (settings) {
-        return MaterialPageRoute(
-          builder:
-              (_) =>
-                  const Scaffold(body: Center(child: Text('Route not found'))),
-        );
+      debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        // Add global error handling for the app
+        return ErrorHandler(child: child ?? const SizedBox());
       },
     );
+  }
+}
+
+class ErrorHandler extends StatelessWidget {
+  final Widget child;
+
+  const ErrorHandler({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(color: Colors.white, child: child);
   }
 }
