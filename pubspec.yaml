@@ -38,6 +38,8 @@ dependencies:
   firebase_auth: ^5.3.4
   firebase_core: ^3.9.0
   cloud_firestore: ^5.6.5
+  circle_nav_bar: ^2.2.0
+  flutter_card_swiper: ^7.0.2
 
 dev_dependencies:
   flutter_test:

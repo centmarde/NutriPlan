@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppTheme.darkest),
         useMaterial3: true,
       ),
-      initialRoute: '/auth',
+      initialRoute: '/',
       onGenerateRoute: AppRouter.generateRoute,
       debugShowCheckedModeBanner: false,
       builder: (context, child) {

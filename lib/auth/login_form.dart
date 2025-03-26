@@ -51,6 +51,19 @@ class _LoginFormState extends State<LoginForm> {
       setState(() {
         _errorMessage = _getFirebaseErrorMessage(e.toString());
       });
+      // Display technical error details for debugging
+      if (e.toString().contains('X-Firebase-Locale')) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Firebase locale error detected. Please check app permissions.',
+              style: TextStyle(fontSize: 12),
+            ),
+            backgroundColor: Colors.orange,
+            duration: Duration(seconds: 5),
+          ),
+        );
+      }
     } finally {
       if (mounted) {
         setState(() {
@@ -71,8 +84,12 @@ class _LoginFormState extends State<LoginForm> {
       return 'This user account has been disabled.';
     } else if (error.contains('too-many-requests')) {
       return 'Too many unsuccessful login attempts. Please try again later.';
+    } else if (error.contains('X-Firebase-Locale')) {
+      return 'Firebase locale error: Please restart the app or check device settings.';
+    } else if (error.contains('firebase_auth')) {
+      return 'Firebase authentication error. Please try again.';
     }
-    return 'An error occurred. Please try again.';
+    return 'An error occurred: ${error.split(']').last.trim()}';
   }
 
   void _forgotPassword() async {
