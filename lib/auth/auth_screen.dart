@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'login_form.dart';
 import 'register_form.dart';
 import '../theme/theme.dart';
@@ -12,6 +13,29 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   bool _isLogin = true;
+  bool _firebaseInitialized = false;
+  String? _firebaseError;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkFirebaseInitialization();
+  }
+
+  Future<void> _checkFirebaseInitialization() async {
+    try {
+      final apps = Firebase.apps;
+      setState(() {
+        _firebaseInitialized = apps.isNotEmpty;
+        _firebaseError = null;
+      });
+    } catch (e) {
+      setState(() {
+        _firebaseInitialized = false;
+        _firebaseError = e.toString();
+      });
+    }
+  }
 
   void _toggleAuthMode() {
     setState(() {
@@ -31,6 +55,37 @@ class _AuthScreenState extends State<AuthScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  if (!_firebaseInitialized && _firebaseError != null)
+                    Card(
+                      color: Colors.red.shade50,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            const Icon(
+                              Icons.error_outline,
+                              color: Colors.red,
+                              size: 48,
+                            ),
+                            const SizedBox(height: 16),
+                            const Text(
+                              'Firebase Initialization Error',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.red,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Please restart the app. If the problem persists, contact support.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.red.shade700),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   Card(
                     elevation: 8,
                     shadowColor: Colors.black45,
@@ -60,7 +115,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           const SizedBox(height: 20),
                           Text(
                             _isLogin ? 'Welcome Back!' : 'Create Account',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 26,
                               fontWeight: FontWeight.bold,
                               color: AppTheme.darkest,
