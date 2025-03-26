@@ -5,23 +5,23 @@ import '../router/routes.dart';
 
 // Define constants for tab indices
 class NavBarItems {
-  static const int home = 0;
-  static const int meals = 1;
-  static const int progress = 2;
-  static const int shop = 3;
+  static const int ai = 0;
+  static const int planner = 1;
+  static const int home = 2;
+  static const int schedule = 3;
   static const int profile = 4;
 
   // Map indices to route paths
   static String getRouteForIndex(int index) {
     switch (index) {
+      case ai:
+        return '/ai';
+      case planner:
+        return '/planner';
       case home:
         return AppRoutes.home;
-      case meals:
-        return '/meals'; // Add this route to AppRoutes if needed
-      case progress:
-        return '/progress'; // Add this route to AppRoutes if needed
-      case shop:
-        return '/shop'; // Add this route to AppRoutes if needed
+      case schedule:
+        return '/schedule';
       case profile:
         return AppRoutes.profile;
       default:
@@ -32,14 +32,14 @@ class NavBarItems {
   // Get display names for each tab
   static String getDisplayNameForIndex(int index) {
     switch (index) {
+      case ai:
+        return 'AI';
+      case planner:
+        return 'Planner';
       case home:
         return 'Home';
-      case meals:
-        return 'Meals';
-      case progress:
-        return 'Progress';
-      case shop:
-        return 'Shop';
+      case schedule:
+        return 'Schedule';
       case profile:
         return 'Profile';
       default:
@@ -64,13 +64,27 @@ class _CustomNavBarState extends State<CustomNavBar> {
   Widget build(BuildContext context) {
     return CircleNavBar(
       activeIcons: const [
+        Icon(Icons.smart_toy, color: Colors.white, size: 24),
+        Icon(Icons.calendar_today, color: Colors.white, size: 24),
         Icon(Icons.home, color: Colors.white, size: 24),
-        Icon(Icons.restaurant, color: Colors.white, size: 24),
-        Icon(Icons.bar_chart, color: Colors.white, size: 24),
-        Icon(Icons.shopping_cart, color: Colors.white, size: 24),
+        Icon(Icons.schedule, color: Colors.white, size: 24),
         Icon(Icons.person, color: Colors.white, size: 24),
       ],
       inactiveIcons: const [
+        Text(
+          "AI",
+          style: TextStyle(
+            color: AppTheme.darkest,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          "Planner",
+          style: TextStyle(
+            color: AppTheme.darkest,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         Text(
           "Home",
           style: TextStyle(
@@ -79,21 +93,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
           ),
         ),
         Text(
-          "Meals",
-          style: TextStyle(
-            color: AppTheme.darkest,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          "Progress",
-          style: TextStyle(
-            color: AppTheme.darkest,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          "Shop",
+          "Schedule",
           style: TextStyle(
             color: AppTheme.darkest,
             fontWeight: FontWeight.bold,
