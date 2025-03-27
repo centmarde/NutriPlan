@@ -66,12 +66,23 @@ class _AppLayoutState extends State<AppLayout> {
               ? CustomNavBar(
                 activeIndex: _activeIndex,
                 onTap: (index) {
-                  setState(() {
-                    _activeIndex = index;
-                    // Update the current route based on the selected navbar item
-                    _currentRoute = NavBarItems.getRouteForIndex(index);
-                  });
-                  // Here you would implement navigation logic or pass tab changes up to parent
+                  // Only navigate if selecting a different tab
+                  if (index != _activeIndex) {
+                    // Get the route path for the selected tab
+                    final String routePath = NavBarItems.getRouteForIndex(
+                      index,
+                    );
+
+                    // Navigate to the new route using pushReplacementNamed
+                    // This replaces the current page in the navigation stack
+                    Navigator.of(context).pushReplacementNamed(routePath);
+
+                    // Update local state
+                    setState(() {
+                      _activeIndex = index;
+                      _currentRoute = routePath;
+                    });
+                  }
                 },
               )
               : null,

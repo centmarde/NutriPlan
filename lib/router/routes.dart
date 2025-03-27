@@ -4,6 +4,9 @@ class AppRoutes {
   static const String home = '/home';
   static const String profile = '/profile';
   static const String settings = '/settings';
+  static const String schedule = '/schedule';
+  static const String nutriai = '/ai';
+  static const String planner = '/planner';
   // Add more routes as needed
 }
 
@@ -14,5 +17,8 @@ class RouteType {
     AppRoutes.home,
     AppRoutes.profile,
     AppRoutes.settings,
+    AppRoutes.schedule,
+    AppRoutes.nutriai,
+    AppRoutes.planner, // Added planner route to protected routes
   ];
 }

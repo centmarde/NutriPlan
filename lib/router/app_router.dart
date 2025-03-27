@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import '../auth/auth_screen.dart';
 import '../home/home_screen.dart';
 import '../landing/landing_screen.dart';
+import '../pages/schedule.dart';
+import '../pages/nutriai.dart'; // Fixed case sensitivity in import path
+import '../pages/planner.dart'; // Add import for planner screen
 import 'routes.dart';
 import 'router_guard.dart';
 import 'auth_route_guards.dart';
@@ -36,6 +39,18 @@ class AppRouter {
       case AppRoutes.home:
         stderr.writeln('Navigating to Home screen');
         pageWidget = const HomeScreen();
+        break;
+      case AppRoutes.schedule:
+        stderr.writeln('Navigating to Schedule screen');
+        pageWidget = const ScheduleScreen();
+        break;
+      case AppRoutes.nutriai: // Add case for AI route
+        stderr.writeln('Navigating to AI screen');
+        pageWidget = const AIScreen();
+        break;
+      case AppRoutes.planner: // Add case for planner route
+        stderr.writeln('Navigating to Planner screen');
+        pageWidget = const PlannerScreen();
         break;
       // Add more routes as needed
       default:
