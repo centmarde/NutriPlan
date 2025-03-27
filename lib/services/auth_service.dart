@@ -168,6 +168,23 @@ class AuthService {
     }
   }
 
+  // Update user profile data
+  Future<void> updateUserData(Map<String, dynamic> userData) async {
+    try {
+      if (currentUser == null) {
+        throw Exception('No authenticated user found');
+      }
+
+      await _firestore
+          .collection('users')
+          .doc(currentUser!.uid)
+          .update(userData);
+    } catch (e) {
+      print('Error updating user data: ${e.toString()}');
+      rethrow;
+    }
+  }
+
   Future<Map<String, dynamic>?> getUserDetailsForPigeon() async {
     try {
       if (currentUser == null) return null;

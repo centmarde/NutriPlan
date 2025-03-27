@@ -9,7 +9,7 @@ class NavBarItems {
   static const int planner = 1;
   static const int home = 2;
   static const int schedule = 3;
-  static const int profile = 4;
+  static const int profiles = 4;
 
   // Map indices to route paths
   static String getRouteForIndex(int index) {
@@ -22,8 +22,8 @@ class NavBarItems {
         return AppRoutes.home;
       case schedule:
         return '/schedule';
-      case profile:
-        return AppRoutes.profile;
+      case profiles:
+        return AppRoutes.profiles;
       default:
         return AppRoutes.home;
     }
@@ -40,8 +40,8 @@ class NavBarItems {
         return 'Home';
       case schedule:
         return 'Schedule';
-      case profile:
-        return 'Profile';
+      case profiles:
+        return 'Profiles';
       default:
         return '';
     }
@@ -58,8 +58,8 @@ class NavBarItems {
         return home;
       case AppRoutes.schedule:
         return schedule;
-      case AppRoutes.profile:
-        return profile;
+      case AppRoutes.profiles:
+        return profiles;
       default:
         return home;
     }
