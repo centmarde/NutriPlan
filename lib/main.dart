@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'dart:async';
 import 'router/app_router.dart';
 import 'theme/theme.dart';
 import 'system/scheduler/view_notif.dart';
@@ -12,6 +13,11 @@ void main() async {
   // Initialize meal notification scheduler
   final mealNotificationScheduler = MealNotificationScheduler();
   await mealNotificationScheduler.setupNotifications();
+
+  // Set up a timer to refresh notifications every second
+  Timer.periodic(const Duration(seconds: 1), (timer) {
+    mealNotificationScheduler.scheduleMealNotifications();
+  });
 
   // Set up listeners for user login/logout and meal changes
   mealNotificationScheduler.setupAuthListener();
