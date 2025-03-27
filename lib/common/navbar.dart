@@ -17,7 +17,7 @@ class NavBarItems {
       case ai:
         return '/ai';
       case planner:
-        return '/planner';
+        return AppRoutes.planner;
       case home:
         return AppRoutes.home;
       case schedule:
@@ -44,6 +44,24 @@ class NavBarItems {
         return 'Profile';
       default:
         return '';
+    }
+  }
+
+  // Map route paths to indices - add this new method
+  static int getIndexForRoute(String route) {
+    switch (route) {
+      case AppRoutes.nutriai: // Use constant from AppRoutes
+        return ai;
+      case AppRoutes.planner:
+        return planner;
+      case AppRoutes.home:
+        return home;
+      case AppRoutes.schedule:
+        return schedule;
+      case AppRoutes.profile:
+        return profile;
+      default:
+        return home;
     }
   }
 }
