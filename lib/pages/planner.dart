@@ -4,6 +4,7 @@ import '../router/routes.dart';
 import '../common/navbar.dart';
 import '../system/planner/view.dart'; // Import the planner view
 import '../services/auth_service.dart'; // Import auth service
+import '../system/scheduler/view_notif.dart';
 
 class PlannerScreen extends StatefulWidget {
   const PlannerScreen({Key? key}) : super(key: key);
@@ -25,6 +26,14 @@ class _PlannerScreenState extends State<PlannerScreen> {
 
   int _selectedDay = 0;
   final AuthService _authService = AuthService();
+  final MealNotificationScheduler _notificationScheduler =
+      MealNotificationScheduler();
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationScheduler.scheduleMealNotifications();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../layout/layout.dart';
+import '../system/scheduler/view_notif.dart';
 
 // Define NavBarItems enum
 enum NavBarItems { home, profiles, settings }
@@ -15,6 +16,8 @@ class ProfilesScreen extends StatefulWidget {
 class _ProfilesScreenState extends State<ProfilesScreen> {
   final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
+  final MealNotificationScheduler _notificationScheduler =
+      MealNotificationScheduler();
 
   // User data
   Map<String, dynamic>? _userData;
@@ -59,6 +62,7 @@ class _ProfilesScreenState extends State<ProfilesScreen> {
   void initState() {
     super.initState();
     _loadUserData();
+    _notificationScheduler.scheduleMealNotifications();
   }
 
   Future<void> _loadUserData() async {
