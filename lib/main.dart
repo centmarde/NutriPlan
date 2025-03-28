@@ -15,10 +15,10 @@ void main() async {
   await mealNotificationScheduler.setupNotifications();
 
   // Set up a timer to refresh notifications every second
-  Timer.periodic(const Duration(seconds: 1), (timer) {
+  /*  Timer.periodic(const Duration(seconds: 10), (timer) {
     mealNotificationScheduler.scheduleMealNotifications();
-  });
-  /*  mealNotificationScheduler.scheduleMealNotifications(); */
+  }); */
+  mealNotificationScheduler.scheduleMealNotifications();
   // Set up listeners for user login/logout and meal changes
   mealNotificationScheduler.setupAuthListener();
   mealNotificationScheduler

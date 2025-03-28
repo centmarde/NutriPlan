@@ -7,6 +7,7 @@ import '../services/auth_service.dart';
 import '../system/scheduleWidgets/scheduleview.dart';
 import '../system/scheduleWidgets/scheduletabs.dart';
 import '../system/scheduleWidgets/schedulesearch.dart';
+import '../system/scheduler/view_notif.dart';
 
 class ScheduleScreen extends StatefulWidget {
   const ScheduleScreen({Key? key}) : super(key: key);
@@ -22,6 +23,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   bool _isLoading = true;
   String? _errorMessage;
   bool _isProcessing = false;
+  final MealNotificationScheduler _notificationScheduler =
+      MealNotificationScheduler();
 
   // Filter and search state
   ScheduleFilter _activeFilter = ScheduleFilter.all;
@@ -33,6 +36,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   void initState() {
     super.initState();
     _initMealsStream();
+    _notificationScheduler.scheduleMealNotifications();
   }
 
   Future<void> _initMealsStream() async {

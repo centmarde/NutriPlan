@@ -5,6 +5,7 @@ import '../theme/theme.dart';
 import '../router/routes.dart';
 import '../system/ai/chat.dart';
 import '../system/ai/concatAi.dart';
+import '../system/scheduler/view_notif.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AIScreen extends StatefulWidget {
@@ -19,11 +20,14 @@ class _AIScreenState extends State<AIScreen> {
   final TextEditingController _textController = TextEditingController();
   final List<ChatMessage> _messages = [];
   bool _isLoading = false;
+  final MealNotificationScheduler _notificationScheduler =
+      MealNotificationScheduler();
 
   @override
   void initState() {
     super.initState();
     _initialize();
+    _notificationScheduler.scheduleMealNotifications();
   }
 
   Future<void> _initialize() async {
