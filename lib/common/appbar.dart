@@ -35,8 +35,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         case AppRoutes.home:
           displayRoute = 'Home';
           break;
-        case AppRoutes.profile:
-          displayRoute = 'Profile';
+        case AppRoutes.profiles:
+          displayRoute = 'Profiles';
           break;
         case AppRoutes.settings:
           displayRoute = 'Settings';

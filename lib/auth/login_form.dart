@@ -15,6 +15,7 @@ class _LoginFormState extends State<LoginForm> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
+  bool _isPasswordVisible = false; // Add this line to track password visibility
   final AuthService _authService = AuthService();
   String? _errorMessage;
 
@@ -149,8 +150,22 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(height: 16),
           TextFormField(
             controller: _passwordController,
-            decoration: _buildInputDecoration('Password', Icons.lock),
-            obscureText: true,
+            decoration: _buildInputDecoration('Password', Icons.lock).copyWith(
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                  color: AppTheme.darker,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _isPasswordVisible = !_isPasswordVisible;
+                  });
+                },
+                tooltip: _isPasswordVisible ? 'Hide password' : 'Show password',
+              ),
+            ),
+            obscureText:
+                !_isPasswordVisible, // Toggle based on visibility state
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter your password';

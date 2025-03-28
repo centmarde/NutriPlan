@@ -87,7 +87,7 @@ class NotificationService {
           enableLights: true,
           enableVibration: true,
           icon: '@mipmap/ic_launcher',
-          ticker: 'NutriPlan meal notification',
+          ticker: 'DailyBite meal notification',
         );
 
     return NotificationDetails(android: androidDetails);

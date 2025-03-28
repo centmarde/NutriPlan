@@ -15,10 +15,10 @@ void main() async {
   await mealNotificationScheduler.setupNotifications();
 
   // Set up a timer to refresh notifications every second
-  Timer.periodic(const Duration(seconds: 1), (timer) {
+  /*  Timer.periodic(const Duration(seconds: 1), (timer) {
     mealNotificationScheduler.scheduleMealNotifications();
-  });
-
+  }); */
+  mealNotificationScheduler.scheduleMealNotifications();
   // Set up listeners for user login/logout and meal changes
   mealNotificationScheduler.setupAuthListener();
   mealNotificationScheduler
@@ -65,7 +65,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'NutriPlan',
+      title: 'DailyBite',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: AppTheme.darkest),
         useMaterial3: true,

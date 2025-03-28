@@ -96,21 +96,19 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
   Future<void> _deleteMeal(String documentId) async {
     print('DEBUG: _deleteMeal called with document ID: $documentId');
+    if (documentId.isEmpty) {
+      print('DEBUG: Attempted to delete with empty document ID');
+      return;
+    }
+
     setState(() {
       _isProcessing = true;
     });
 
     try {
-      print(
-        'DEBUG: Attempting to delete document ID: $documentId in schedule.dart',
-      );
-      // Hard delete the meal document from Firestore
+      // Simple direct deletion approach
       await _firestore.collection('meals').doc(documentId).delete();
-      print('DEBUG: Successfully deleted document with ID: $documentId');
 
-      // Note: We don't need to show a snackbar here because the deleteschedule.dart
-      // already shows one. But we'll keep it for redundancy in case this method
-      // is called directly from elsewhere.
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -119,34 +117,24 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             duration: Duration(seconds: 2),
           ),
         );
-        print('DEBUG: Displayed success snackbar in schedule.dart');
       }
     } catch (e) {
-      print('DEBUG: Error deleting meal in schedule.dart: $e');
-      print('DEBUG: Error type in schedule.dart: ${e.runtimeType}');
-      print('DEBUG: Error stack trace in schedule.dart: ${StackTrace.current}');
+      print('DEBUG: Error deleting meal: $e');
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to delete meal'),
+            content: Text('Failed to delete meal: ${e.toString()}'),
             backgroundColor: Colors.red,
             duration: Duration(seconds: 2),
           ),
         );
-        print('DEBUG: Displayed error snackbar in schedule.dart');
       }
     } finally {
       if (mounted) {
         setState(() {
           _isProcessing = false;
-          print('DEBUG: Set isProcessing to false');
         });
-
-        // Force refresh UI
-        print('DEBUG: Triggering UI refresh after delete operation');
-      } else {
-        print('DEBUG: Widget not mounted, skipping setState');
       }
     }
   }

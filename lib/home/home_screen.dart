@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
     final theme = Theme.of(context);
 
     return AppLayout(
-      title: 'NutriPlan',
+      title: 'DailyBite',
       initialTabIndex: 2, // Home tab is selected
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

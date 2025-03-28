@@ -5,6 +5,7 @@ import '../landing/landing_screen.dart';
 import '../pages/schedule.dart';
 import '../pages/nutriai.dart'; // Fixed case sensitivity in import path
 import '../pages/planner.dart'; // Add import for planner screen
+import '../pages/profiles.dart'; // Add import for profiles screen
 import 'routes.dart';
 import 'router_guard.dart';
 import 'auth_route_guards.dart';
@@ -51,6 +52,10 @@ class AppRouter {
       case AppRoutes.planner: // Add case for planner route
         stderr.writeln('Navigating to Planner screen');
         pageWidget = const PlannerScreen();
+        break;
+      case AppRoutes.profiles: // Add case for profiles route
+        stderr.writeln('Navigating to Profiles screen');
+        pageWidget = const ProfilesScreen();
         break;
       // Add more routes as needed
       default:
