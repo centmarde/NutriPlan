@@ -41,7 +41,7 @@ class LandingScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
                 // App Title
-                Text('NutriPlan', style: AppTheme.headingStyle),
+                Text('DailyBite', style: AppTheme.headingStyle),
                 const SizedBox(height: 20),
                 // App description
                 Padding(

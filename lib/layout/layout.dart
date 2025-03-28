@@ -15,7 +15,7 @@ class AppLayout extends StatefulWidget {
   const AppLayout({
     Key? key,
     required this.child,
-    this.title = 'NutriPlan',
+    this.title = 'DailyBite',
     this.actions,
     this.showAppBar = true,
     this.showNavBar = true,

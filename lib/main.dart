@@ -65,7 +65,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'NutriPlan',
+      title: 'DailyBite',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: AppTheme.darkest),
         useMaterial3: true,

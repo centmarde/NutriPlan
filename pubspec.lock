@@ -214,6 +214,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.2"
+  flutter_dotenv:
+    dependency: "direct main"
+    description:
+      name: flutter_dotenv
+      sha256: b7c7be5cd9f6ef7a78429cabd2774d3c4af50e79cb2b7593e3d5d763ef95c61b
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.2.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -277,6 +285,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  groq_sdk:
+    dependency: "direct main"
+    description:
+      name: groq_sdk
+      sha256: "7c0e170d367d321ac24f81ea44789ca0752d6fdcc1003c82c29922ea9bf5f40b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   http:
     dependency: transitive
     description:
